@@ -3,9 +3,9 @@
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import pinata from '@/lib/ipfs';
-import axios from 'axios';
 import { uploadSong } from '@/lib/actions/song.actions';
 import { FaSpinner } from 'react-icons/fa';
+import { useAuth } from '@campnetwork/origin/react';
 
 export interface UploadSongData {
   name: string;
@@ -17,37 +17,15 @@ export interface UploadSongData {
 
 const UploadSongPage = () => {
   const { register, handleSubmit, reset } = useForm();
+  const auth = useAuth();
   const [selectedSongFile, setSelectedSongFile] = useState<File | null>(null);
   const [selectedThumbnailFile, setSelectedThumbnailFile] = useState<File | null>(null);
   const [songCID, setSongCID] = useState<string | null>(null);
   const [thumbnailCID, setThumbnailCID] = useState<string | null>(null);
-  const [address, setAddress] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    const fetchUserAddress = async () => {
-      const token = localStorage.getItem('userToken');
-      if (token) {
-        try {
-          const response = await axios.post('/api/verifyToken', { token }, {
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          });
-
-          if (response.status === 200) {
-            setAddress(response.data.userDetails.accountAddress);
-          } else {
-            console.error('Failed to verify token');
-          }
-        } catch (error) {
-          console.error('Error fetching user address:', error);
-        }
-      }
-    };
-
-    fetchUserAddress();
-  }, []);
+  // Use Origin SDK for wallet address
+  const address = auth.walletAddress;
 
   // Handle file change for song
   const handleSongFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -162,20 +140,20 @@ const UploadSongPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#18181a] flex justify-center items-center p-6">
+    <div className="min-h-screen bg-[#0a0a0a] flex justify-center items-center p-6">
       <div className="flex w-full max-w-6xl shadow-md rounded-lg px-6 py-10 mb-24">
-        <div className="w-1/2 flex flex-col items-center justify-center border border-gray-700 rounded-lg p-6">
+        <div className="w-1/2 flex flex-col items-center justify-center border border-gray-700 rounded-lg p-6 bg-[#131316]">
           <h1 className="text-3xl font-bold text-white mb-4">Upload Song</h1>
           <input
             type="file"
             accept="audio/*"
             onChange={handleSongFileChange}
-            className="block w-full text-white rounded-md shadow-sm p-2 mb-4 pl-36"
+            className="block w-full text-white rounded-md shadow-sm p-2 mb-4 pl-36 bg-[#1a1a1f] border border-gray-600"
           />
           <button
             type="button"
             onClick={uploadSongFile}
-            className="bg-[#5b5bd5] text-white px-4 py-2 rounded-xl"
+            className="bg-orange-500 hover:bg-orange-600 transition-colors text-white px-4 py-2 rounded-xl"
           >
             {loading ? <FaSpinner className="animate-spin" /> : 'Upload Song'}
           </button>
@@ -197,7 +175,7 @@ const UploadSongPage = () => {
               <input
                 type="text"
                 {...register('name', { required: true })}
-                className="mt-1 block w-full border bg-[#232328] border-gray-600 rounded-md shadow-sm p-2"
+                className="mt-1 block w-full border bg-[#131316] border-gray-600 rounded-md shadow-sm p-2 text-white focus:border-orange-500 focus:outline-none"
               />
             </div>
             <div>
@@ -206,12 +184,12 @@ const UploadSongPage = () => {
                 type="file"
                 accept="image/*"
                 onChange={handleThumbnailFileChange}
-                className="block w-full text-white rounded-md shadow-sm p-2 mb-4 pl-36"
+                className="block w-full text-white rounded-md shadow-sm p-2 mb-4 pl-36 bg-[#1a1a1f] border border-gray-600"
               />
               <button
                 type="button"
                 onClick={uploadThumbnailFile}
-                className="bg-[#5b5bd5] text-white px-4 py-2 rounded-xl"
+                className="bg-orange-500 hover:bg-orange-600 transition-colors text-white px-4 py-2 rounded-xl"
               >
                 {loading ? <FaSpinner className="animate-spin" /> : 'Upload Thumbnail'}
               </button>
@@ -224,7 +202,7 @@ const UploadSongPage = () => {
             </div>
             <button
               type="submit"
-              className="bg-[#5b5bd5] text-white px-4 py-2 rounded-xl"
+              className="bg-orange-500 hover:bg-orange-600 transition-colors text-white px-4 py-2 rounded-xl"
             >
               Confirm Release 
             </button>

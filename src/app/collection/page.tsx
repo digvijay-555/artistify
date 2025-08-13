@@ -1,9 +1,7 @@
-import Collections from "@/components/Collections";
+import Collections from '@/components/Collections';
 
-const Page = () => {
-  return (
-    <Collections />
-  );
+const CollectionPage = () => {
+  return <Collections />;
 };
 
-export default Page;
+export default CollectionPage;

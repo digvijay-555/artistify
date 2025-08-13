@@ -1,97 +1,114 @@
 'use client'
 
 import Link from 'next/link';
-import React, { useEffect } from 'react';
-import ConnectWalletButton from '@/components/cta/ConnectWalletBtn';
-import { MdDiamond } from 'react-icons/md';
-import { FaSearch } from 'react-icons/fa';
-// import FeinAddress from '@/contract_data/Fein-address.json';
-// import FeinAbi from '@/contract_data/Fein.json';
-import { ethers } from 'ethers';
+import React, { memo, useState } from 'react';
+import OriginAuthButton from '@/components/cta/OriginAuthButton';
+import { FaSearch, FaBars, FaTimes } from 'react-icons/fa';
 import GoToPortfolio from '../cta/GoToPortfolio';
 
 const Navbar = () => {
-  // const [Fein, setFein] = useState<any>(null);
-  // const [adminAddress, setAdminAddress] = useState<string | null>(null);
-  // const [currentAddress, setCurrentAddress] = useState<string | null>(null);
-
-  useEffect(() => {
-    const init = async () => {
-      if (window.ethereum) {
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
-        const signer = provider.getSigner();
-        const address = await signer.getAddress();
-        console.log('curr address', address);
-        // setCurrentAddress(address);
-
-        // const contractInstance5 = new ethers.Contract(
-        //   FeinAddress.address,
-        //   FeinAbi.abi,
-        //   signer
-        // );
-        // setFein(contractInstance5);
-      } else {
-        alert('MetaMask not detected. Please install MetaMask.');
-      }
-    };
-
-    init();
-  }, []);
-
-  // useEffect(() => {
-  //   const getOwner = async () => {
-  //     if (Fein) {
-  //       try {
-  //         const res = await Fein.getContractOwner();
-  //         console.log(res)
-  //         setAdminAddress(res);
-  //       } catch (error) {
-  //         console.error('Error fetching contract owner:', error);
-  //       }
-  //     }
-  //   };
-  //   getOwner();
-  // }, [Fein]);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <div className="w-full h-[87px] border-b-[1px] border-gray-600 flex items-center px-16 bg-[#18181a] gap-44">
-      <div className="flex items-center gap-20 text-lg font-semibold text-white">
-        {/* Left elements */}
-        <Link href="/">
-          <MdDiamond className="w-8 h-auto cursor-pointer" />
-        </Link>
-        <Link href="/collection" className="relative transition duration-300">
-          <div className="hover:border-b-2 border-gray-400 pb-1">Collections</div>
-        </Link>
-        <Link href="/listen" className="relative transition duration-300">
-          <div className="hover:border-b-2 border-gray-400 pb-1">Listen</div>
-        </Link>
-      </div>
-      <div className="flex-grow flex justify-center">
-        {/* Center input */}
-        <div className="relative flex-1">
-          <input
-            type="text"
-            placeholder="Search..."
-            className="px-12 py-3 rounded-lg w-full bg-[#27282d] text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-        </div>
-      </div>
-      <div className="flex items-center space-x-4">
-        {/* Right elements */}
-        <ConnectWalletButton />
-        {/* {currentAddress === adminAddress && (
-          <Link href="/admin">
-            <button className="bg-[#5b5bd5] text-white px-4 py-2 rounded-xl shadow-lg border-2 border-transparent hover:border-gradient-to-r from-green-400 to-green-600 transition duration-300">
-              Admin Page
+    <>
+      <nav className="w-full h-16 border-b border-gray-800/50 bg-[#0a0a0a]/95 backdrop-blur-md sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-6 h-full">
+          <div className="flex items-center justify-between h-full">
+            {/* Logo */}
+            <Link href="/" className="flex items-center gap-2 group">
+              <div className="w-8 h-8 bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg flex items-center justify-center group-hover:scale-105 transition-transform">
+                <span className="text-white font-bold text-sm">A</span>
+              </div>
+              <span className="text-white font-medium text-lg hidden sm:block">Artistify</span>
+            </Link>
+
+            {/* Desktop Navigation */}
+            <div className="hidden md:flex items-center gap-8">
+              <Link 
+                href="/collection" 
+                className="text-gray-300 hover:text-orange-400 transition-colors text-sm font-medium"
+              >
+                Collections
+              </Link>
+              <Link 
+                href="/listen" 
+                className="text-gray-300 hover:text-orange-400 transition-colors text-sm font-medium"
+              >
+                Listen
+              </Link>
+            </div>
+
+            {/* Search Bar */}
+            <div className="hidden lg:flex flex-1 max-w-md mx-8">
+              <div className="relative w-full">
+                <input
+                  type="text"
+                  placeholder="Search artists, tracks..."
+                  className="w-full h-9 pl-10 pr-4 bg-[#131316] border border-gray-800 rounded-lg text-white text-sm placeholder-gray-500 focus:outline-none focus:border-orange-500 transition-colors"
+                />
+                <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 w-3 h-3" />
+              </div>
+            </div>
+
+            {/* Desktop Actions */}
+            <div className="hidden md:flex items-center gap-3">
+              <OriginAuthButton />
+              <GoToPortfolio />
+            </div>
+
+            {/* Mobile Menu Button */}
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="md:hidden text-gray-300 hover:text-orange-400 transition-colors"
+            >
+              {isMobileMenuOpen ? <FaTimes className="w-5 h-5" /> : <FaBars className="w-5 h-5" />}
             </button>
-          </Link>
-        )} */}
-        <GoToPortfolio />
-      </div>
-    </div>
+          </div>
+        </div>
+      </nav>
+
+      {/* Mobile Menu */}
+      {isMobileMenuOpen && (
+        <div className="md:hidden border-b border-gray-800 bg-[#0a0a0a] sticky top-16 z-40">
+          <div className="max-w-7xl mx-auto px-6 py-4 space-y-4">
+            {/* Mobile Search */}
+            <div className="relative">
+              <input
+                type="text"
+                placeholder="Search..."
+                className="w-full h-9 pl-10 pr-4 bg-[#131316] border border-gray-800 rounded-lg text-white text-sm placeholder-gray-500 focus:outline-none focus:border-orange-500 transition-colors"
+              />
+              <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 w-3 h-3" />
+            </div>
+
+            {/* Mobile Navigation */}
+            <div className="flex flex-col gap-3">
+              <Link 
+                href="/collection" 
+                className="text-gray-300 hover:text-orange-400 transition-colors text-sm font-medium py-1"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Collections
+              </Link>
+              <Link 
+                href="/listen" 
+                className="text-gray-300 hover:text-orange-400 transition-colors text-sm font-medium py-1"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Listen
+              </Link>
+            </div>
+
+            {/* Mobile Actions */}
+            <div className="flex flex-col gap-3 pt-2 border-t border-gray-800">
+              <OriginAuthButton />
+              <GoToPortfolio />
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 
-export default Navbar;
+export default memo(Navbar);

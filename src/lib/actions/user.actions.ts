@@ -2,7 +2,6 @@
 
 import { revalidatePath } from "next/cache";
 import prisma from "../prisma";
-import { redirect } from "next/navigation";
 
 export const logInUser = async (address: string):Promise<void> => {
     try {
@@ -29,31 +28,71 @@ export const logInUser = async (address: string):Promise<void> => {
     }
   };
 
-  export async function onboardUser(formData: FormData, address: string) {
+  export async function onboardUser(formData: FormData, address: string): Promise<{ success: boolean }> {
     const name = formData.get('name') as string;
     const instaAccUrl = formData.get('instaAccUrl') as string;
-  
+    console.log('Onboarding user:', { name, instaAccUrl });
+
     try {
+      // First, get the user to check if they have userInfo
+      const existingUser = await prisma.user.findUnique({
+        where: { accountAddress: address },
+        include: { userInfo: true }
+      });
+
+      if (!existingUser) {
+        throw new Error('User not found');
+      }
+
+      // Update user and handle userInfo creation/update
       await prisma.user.update({
         where: { accountAddress: address },
         data: {
           isOnboarded: true,
-          userInfo: {
-            create: {
-              name,
-              instaAccUrl,
-            },
-          },
+          userInfo: existingUser.userInfo 
+            ? {
+                // Update existing userInfo
+                update: {
+                  name,
+                  instaAccUrl,
+                }
+              }
+            : {
+                // Create new userInfo if it doesn't exist
+                create: {
+                  name,
+                  instaAccUrl,
+                }
+              },
           verificationStatus: instaAccUrl ? 'Processing' : 'UnVerified',
         },
       });
   
-      // Revalidate or redirect after successful onboarding
+      console.log('User onboarded successfully');
+      
+      // Revalidate the path for updated data
       revalidatePath(`/portfolio/${address}`);
-      redirect(`/portfolio/${address}`);
+      
+      // Return success indicator instead of redirecting
+      return { success: true };
     } catch (error) {
       console.error('Error during onboarding:', error);
       throw new Error('Failed to onboard user');
     }
   }
-  
+
+  export async function getUserByAddress(address: string) {
+    try {
+      const user = await prisma.user.findUnique({
+        where: { accountAddress: address },
+        include: {
+          userInfo: true,
+          songs: true,
+        },
+      });
+      return user;
+    } catch (error) {
+      console.error('Error fetching user by address:', error);
+      throw new Error('Failed to fetch user');
+    }
+  }

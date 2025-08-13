@@ -1,53 +1,38 @@
 'use client'
 
-import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '@campnetwork/origin/react';
+import { useCallback, memo } from 'react';
 
 const GoToPortfolio = () => {
-  const [walletAddress, setWalletAddress] = useState<string | null>(null);
   const router = useRouter();
+  const auth = useAuth();
 
-  useEffect(() => {
-    const fetchWalletAddress = async () => {
-      if (typeof window.ethereum !== 'undefined') {
-        try {
-          const accounts = await window.ethereum.request({
-            method: 'eth_requestAccounts',
-          });
-
-          if (accounts.length > 0) {
-            setWalletAddress(accounts[0]);
-            console.log('Wallet address:', accounts[0]);
-          } else {
-            // alert('Please connect to MetaMask');
-          }
-        } catch (error) {
-          console.error('Error fetching wallet address:', error);
-          // alert('Failed to retrieve wallet address.');
-        }
-      } else {
-        // alert('Please install MetaMask.');
-      }
-    };
-
-    fetchWalletAddress();
-  }, []);
-
-  const handlePortfolioRedirect = () => {
-    if (walletAddress) {
-      router.push(`/portfolio/${walletAddress}`);
+  const handlePortfolioRedirect = useCallback(() => {
+    if (auth.walletAddress) {
+      router.push(`/portfolio/${auth.walletAddress}`);
     }
-  };
+  }, [auth.walletAddress, router]);
+
+  // Only render if authenticated and has wallet address
+  if (!auth.isAuthenticated || !auth.walletAddress) {
+    return null;
+  }
 
   return (
-    <div>
-      {walletAddress ? (
-        <div className='w-12 h-12 rounded-full bg-gradient-to-r from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90% cursor-pointer' onClick={handlePortfolioRedirect}></div>
-      ) : (
-        <></>
-      )}
-    </div>
+    <div 
+      className='w-12 h-12 rounded-full bg-gradient-to-r from-orange-500 to-orange-600 cursor-pointer hover:scale-105 transition-transform duration-200 flex items-center justify-center' 
+      onClick={handlePortfolioRedirect}
+      title="Go to Portfolio"
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          handlePortfolioRedirect();
+        }
+      }}
+    />
   );
 };
 
-export default GoToPortfolio;
+export default memo(GoToPortfolio);

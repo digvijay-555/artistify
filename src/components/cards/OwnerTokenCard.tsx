@@ -73,25 +73,25 @@ const OwnerTokenCard = (props: Props) => {
                     className="rounded-t-xl"
                 />
             </div>
-            <div className="w-full p-4 flex flex-col justify-start bg-[#232328]">
+            <div className="w-full p-4 flex flex-col justify-start bg-[#131316] group-hover:bg-[#1a1a1f] transition-colors">
                 <div className='px-1 flex justify-between items-center'>
-                    <h1 className="text-md font-bold">{props.tokenName}</h1>
+                    <h1 className="text-md font-bold text-white">{props.tokenName}</h1>
                     <div className="flex gap-2 items-center text-lg">
-                        <MdToken className='text-white' />
-                        <p>{props.availableToken}</p>
+                        <MdToken className='text-orange-400' />
+                        <p className="text-white">{props.availableToken}</p>
                     </div>
                 </div>
                 <div className='px-2 flex justify-between items-center'>
                     <div className="flex gap-2 items-center text-lg">
-                        <FaEthereum className='text-white' />
-                        <p>{props.tokenPrice / 10000}</p>
+                        <FaEthereum className='text-orange-400' />
+                        <p className="text-white">{props.tokenPrice / 10000}</p>
                     </div>
-                    <MdDiamond className='text-white' />
+                    <MdDiamond className='text-orange-400' />
                 </div>
             </div>
-            {isReleased ? <button className="w-full text-center py-2 bg-green-700 font-semibold text-lg">
+            {isReleased ? <button className="w-full text-center py-2 bg-green-600 hover:bg-green-700 font-semibold text-lg text-white transition-colors">
                 Released
-            </button> : <button className="w-full text-center py-2 bg-[#5b5bd5] font-semibold text-lg cursor-pointer" onClick={handleRelease}>
+            </button> : <button className="w-full text-center py-2 bg-orange-500 hover:bg-orange-600 font-semibold text-lg cursor-pointer text-white transition-colors" onClick={handleRelease}>
                 Release
             </button>
             }

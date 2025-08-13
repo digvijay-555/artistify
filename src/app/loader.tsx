@@ -3,12 +3,12 @@ import React from 'react';
 
 const Loader = () => {
     return (
-        <div className="flex justify-center items-center h-screen">
+        <div className="flex justify-center items-center h-screen bg-[#0a0a0a]">
             <div className="loader"></div>
             <style jsx>{`
                 .loader {
-                    border: 8px solid #f3f3f3;
-                    border-top: 8px solid #3498db;
+                    border: 8px solid #131316;
+                    border-top: 8px solid #f97316;
                     border-radius: 50%;
                     width: 60px;
                     height: 60px;

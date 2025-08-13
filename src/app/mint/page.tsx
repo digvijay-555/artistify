@@ -3,12 +3,12 @@
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import pinata from '@/lib/ipfs';
-import axios from 'axios';
 import { mintToken } from '@/lib/actions/token.actions';
 import FeinAddress from '@/contract_data/Fein-address.json';
 import FeinAbi from '@/contract_data/Fein.json';
 import { ethers, Event } from 'ethers';
 import { FaSpinner } from 'react-icons/fa';
+import { useAuth } from '@campnetwork/origin/react';
 
 export interface MintTokenData {
   tokenName: string;
@@ -23,36 +23,14 @@ export interface MintTokenData {
 
 const MintPage = () => {
   const { register, handleSubmit, reset } = useForm();
+  const auth = useAuth();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [fileCID, setFileCID] = useState<string | null>(null);
-  const [address, setAddress] = useState<string | null>(null);
   const [Fein, setFein] = useState<any>(null);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    const fetchUserAddress = async () => {
-      const token = localStorage.getItem('userToken');
-      if (token) {
-        try {
-          const response = await axios.post('/api/verifyToken', { token }, {
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          });
-
-          if (response.status === 200) {
-            setAddress(response.data.userDetails.accountAddress);
-          } else {
-            console.error('Failed to verify token');
-          }
-        } catch (error) {
-          console.error('Error fetching user address:', error);
-        }
-      }
-    };
-
-    fetchUserAddress();
-  }, []);
+  // Use Origin SDK for wallet address
+  const address = auth.walletAddress;
 
   useEffect(() => {
     const init = async () => {
@@ -152,19 +130,19 @@ const MintPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#18181a] flex justify-center items-center p-6">
+    <div className="min-h-screen bg-[#0a0a0a] flex justify-center items-center p-6">
       <div className="flex w-full max-w-6xl shadow-md rounded-lg px-6 py-10 mb-24">
-        <div className="w-1/2 flex flex-col items-center justify-center border border-gray-700 rounded-lg p-6">
+        <div className="w-1/2 flex flex-col items-center justify-center border border-gray-700 rounded-lg p-6 bg-[#131316]">
           <h1 className="text-3xl font-bold text-white mb-4">Upload Image</h1>
           <input
             type="file"
             onChange={handleFileChange}
-            className="block w-full text-white rounded-md shadow-sm p-2 mb-4 pl-36"
+            className="block w-full text-white rounded-md shadow-sm p-2 mb-4 pl-36 bg-[#1a1a1f] border border-gray-600"
           />
           <button
             type="button"
             onClick={uploadFile}
-            className="bg-[#5b5bd5] text-white px-4 py-2 rounded-xl"
+            className="bg-orange-500 hover:bg-orange-600 transition-colors text-white px-4 py-2 rounded-xl"
           >
             {loading ? <FaSpinner className="animate-spin" /> : 'Upload Image'}
           </button>
@@ -183,14 +161,14 @@ const MintPage = () => {
               <input
                 type="text"
                 {...register('tokenName', { required: true })}
-                className="mt-1 block w-full border bg-[#232328] border-gray-600 rounded-md shadow-sm p-2"
+                className="mt-1 block w-full border bg-[#131316] border-gray-600 rounded-md shadow-sm p-2 text-white focus:border-orange-500 focus:outline-none"
               />
             </div>
             <div>
               <label className="block text-sm font-medium text-white">Token Description</label>
               <textarea
                 {...register('tokenDesc', { required: true })}
-                className="mt-1 block w-full border bg-[#232328] border-gray-600 rounded-md shadow-sm p-2"
+                className="mt-1 block w-full border bg-[#131316] border-gray-600 rounded-md shadow-sm p-2 text-white focus:border-orange-500 focus:outline-none"
               />
             </div>
             <div className="flex space-x-4">
@@ -200,7 +178,7 @@ const MintPage = () => {
                   type="number"
                   step="0.0001"
                   {...register('tokenPrice', { required: true })}
-                  className="mt-1 block w-full border bg-[#232328] border-gray-600 rounded-md shadow-sm p-2"
+                  className="mt-1 block w-full border bg-[#131316] border-gray-600 rounded-md shadow-sm p-2 text-white focus:border-orange-500 focus:outline-none"
                 />
               </div>
               <div className="w-1/2">
@@ -208,7 +186,7 @@ const MintPage = () => {
                 <input
                   type="number"
                   {...register('tokensToMint', { required: true })}
-                  className="mt-1 block w-full border bg-[#232328] border-gray-600 rounded-md shadow-sm p-2"
+                  className="mt-1 block w-full border bg-[#131316] border-gray-600 rounded-md shadow-sm p-2 text-white focus:border-orange-500 focus:outline-none"
                 />
               </div>
             </div>
@@ -217,12 +195,12 @@ const MintPage = () => {
               <input
                 type="number"
                 {...register('percentageShare', { required: true })}
-                className="mt-1 block w-full text-black border bg-[#232328]  border-gray-600 rounded-md shadow-sm p-2"
+                className="mt-1 block w-full border bg-[#131316] border-gray-600 rounded-md shadow-sm p-2 text-white focus:border-orange-500 focus:outline-none"
               />
             </div>
             <button
               type="submit"
-              className="bg-[#5b5bd5] text-white px-4 py-2 rounded-xl"
+              className="bg-orange-500 hover:bg-orange-600 transition-colors text-white px-4 py-2 rounded-xl"
             >
               Mint Token
             </button>

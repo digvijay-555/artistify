@@ -1,10 +1,8 @@
-import Listen from '@/components/Listen'
-import React from 'react'
+import Listen from '@/components/Listen';
+import React from 'react';
 
-const page = () => {
-  return (
-    <Listen />
-  )
-}
+const ListenPage = () => {
+  return <Listen />;
+};
 
-export default page
+export default ListenPage;

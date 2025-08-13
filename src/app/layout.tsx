@@ -1,5 +1,6 @@
 import './globals.css';
 import Navbar from '@/components/shared/Navbar';
+import Providers from '@/components/providers/Providers';
 
 export const metadata = {
   title: 'Sound Stake',
@@ -14,9 +15,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-
+        <Providers>
           <Navbar />
           {children}
+        </Providers>
       </body>
     </html>
   );

@@ -1,97 +1,49 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { ethers } from 'ethers';
-import axios from 'axios';
 import { useState, useEffect, memo } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWallet, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import { FaSpinner } from 'react-icons/fa';
 import { logInUser } from '@/lib/actions/user.actions';
+import { useAuth } from '@campnetwork/origin/react';
+
 const ConnectWalletButton = () => {
   const router = useRouter();
-  const [walletConnected, setWalletConnected] = useState(false);
-  const [address, setAddress] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
+  const auth = useAuth();
+  const [loading, setLoading] = useState(false);
+
+  // Use Origin SDK auth state
+  const walletConnected = auth.isAuthenticated;
+  const address = auth.walletAddress;
 
   useEffect(() => {
-    const verifyToken = async () => {
-      const token = localStorage.getItem('userToken');
-      if (token) {
+    // If user is authenticated via Origin SDK, create user in database
+    if (auth.isAuthenticated && auth.walletAddress) {
+      const createUser = async () => {
         try {
-          const response = await axios.post('/api/verifyToken', { token }, {
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          });
-
-          if (response.status === 200) {
-            const { userDetails } = response.data;
-            setWalletConnected(true);
-            setAddress(userDetails.accountAddress);
-            console.log('Token verified, user details:', userDetails);
-          } else {
-            console.error('Failed to verify token');
-          }
+          await logInUser(auth.walletAddress!); // Non-null assertion since we check above
+          console.log('User logged in via Origin SDK:', auth.walletAddress);
         } catch (error) {
-          console.error('Error verifying token:', error);
-        } finally {
-          setLoading(false);
+          console.error('Error creating user:', error);
         }
-      } else {
-        setLoading(false);
-      }
-    };
-
-    verifyToken();
-  }, []);
+      };
+      createUser();
+    }
+  }, [auth.isAuthenticated, auth.walletAddress]);
 
   const connectWallet = async () => {
-    if (window.ethereum) {
-      setLoading(true);
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      await provider.send('eth_requestAccounts', []);
-      const signer = provider.getSigner();
-      const address = await signer.getAddress();
-      setWalletConnected(true);
-      setAddress(address);
-      console.log('Connected with address:', address);
-
-      await logInUser(address.toLowerCase());
-      try {
-        // Call API to generate JWT
-        const response = await axios.post('/api/generateToken', { address }, {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-
-        if (response.status === 200) {
-          const { token } = response.data;
-          localStorage.setItem('userToken', token);
-          console.log('Token:', token);
-
-          // Redirect to the same page to refresh the state
-          router.refresh();
-        } else {
-          console.error('Failed to generate token');
-        }
-      } catch (error) {
-        console.error('Error generating token:', error);
-      } finally {
-        setLoading(false);
-      }
-    } else {
-      // alert('Please install MetaMask!');
-    }
+    // Since we're using Origin SDK, we don't need manual wallet connection
+    // The Origin modal handles this
+    console.log('Please use the Origin authentication modal to connect your wallet');
   };
 
   const disconnectWallet = () => {
-    setWalletConnected(false);
-    setAddress(null);
-    localStorage.removeItem('userToken');
-    console.log('Disconnected from wallet');
-    router.refresh();
+    // Use Origin SDK disconnect (check if disconnect method exists)
+    if ('disconnect' in auth && typeof auth.disconnect === 'function') {
+      auth.disconnect();
+    }
+    router.push('/');
   };
 
   return (

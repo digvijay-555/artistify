@@ -25,27 +25,27 @@ const TokenCard = (props: Props) => {
                     layout="fill"
                     style={{ objectFit: 'cover' }}
                     alt="token"
-                    className="rounded-t-xl"
+                    className="rounded-t-xl group-hover:scale-105 transition-transform duration-300"
                 />
             </div>
-            <div className="w-full p-4 flex flex-col justify-start bg-[#232328] pb-16">
+            <div className="w-full p-4 flex flex-col justify-start bg-[#131316] pb-16 group-hover:bg-[#1a1a1f] transition-colors">
                 <div className='px-1 flex justify-between items-center'>
                     <h1 className="text-md font-bold text-white">{props.tokenName}</h1>
                     <div className="flex gap-2 items-center text-lg">
-                        <MdToken className='text-white' />
+                        <MdToken className='text-orange-400' />
                         <p className="text-white">{props.availableToken}</p>
                     </div>
                 </div>
                 <div className='px-2 flex justify-between items-center'>
                     <div className="flex gap-2 items-center text-lg">
-                        <FaEthereum className='text-white' />
+                        <FaEthereum className='text-orange-400' />
                         <p className="text-white">{props.tokenPrice/10000}</p>
                     </div>
-                    <MdDiamond className='text-white' />
+                    <MdDiamond className='text-orange-400' />
                 </div>
             </div>
             
-                <div className="w-full text-center rounded-b-xl py-2 text-white bg-[#5b5bd5] font-semibold text-lg absolute bottom-[-100%] left-0 group-hover:bottom-0 transition-all duration-300 ease-in-out">
+                <div className="w-full text-center rounded-b-xl py-2 text-white bg-orange-500 hover:bg-orange-600 font-semibold text-lg absolute bottom-[-100%] left-0 group-hover:bottom-0 transition-all duration-300 ease-in-out">
                     Buy now
                 </div>
         </div>
