@@ -1,0 +1,102 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id Int @id @default(autoincrement())
+  accountAddress String @unique
+  verificationStatus VerificationStatus @default(UnVerified)
+  isOnboarded Boolean @default(false)
+  userInfo UserInfo?
+  createdAt DateTime @default(now())
+  songs Song[]
+  followers Follower[] @relation("UserFollowed")
+  following Follower[] @relation("UserFollowing")
+  likes Like[]
+  mintedTokens MintedToken[]  // Updated: renamed MintedTokens to mintedTokens for consistency
+  boughtTokens BoughtToken[]  // Updated: renamed boughtTokens to BoughtToken[]
+}
+
+model UserInfo {
+  id Int @id @default(autoincrement())
+  userId Int @unique
+  user User @relation(fields: [userId], references: [id])
+  name String
+  instaAccUrl String?
+}
+
+model Song {
+  id Int @id @default(autoincrement())
+  userId Int
+  name String
+  thumbnail String
+  songCid String
+  length Int  // Updated: changed from String to Int for easier arithmetic
+  totalListeningTime Int
+  user User @relation(fields: [userId], references: [id])
+  likes Like[]
+
+  @@index([userId])  // Updated: added index on userId for performance
+}
+
+model Like {
+  id Int @id @default(autoincrement())
+  userId Int
+  songId Int
+  user User @relation(fields: [userId], references: [id])
+  song Song @relation(fields: [songId], references: [id])
+
+  @@unique([userId, songId]) // Prevent a user from liking the same song more than once
+}
+
+model Follower {
+  id Int @id @default(autoincrement())
+  followingId Int
+  followedId Int
+  following User @relation("UserFollowing", fields: [followingId], references: [id])
+  followed User @relation("UserFollowed", fields: [followedId], references: [id])
+}
+
+enum VerificationStatus {
+  Verified
+  UnVerified
+  Processing
+}
+
+model MintedToken {  // Updated: renamed to MintedToken (singular) for clarity
+  id Int @id @default(autoincrement())
+  tokenId Int @unique
+  tokenThumbail String
+  tokenName String
+  tokenDesc String
+  tokenPrice Int
+  tokensToMint Int
+  percentShare Int
+  isReleased Boolean @default(false)
+  availableToken Int?  // Updated: fixed typo 'avaibleToken' to 'availableToken'
+  userId Int  // Updated: added foreign key field userId
+  user User @relation(fields: [userId], references: [id])  // Updated: fixed relation to reference userId
+  createdAt DateTime @default(now())
+  boughtTokens BoughtToken[]  // Updated: renamed relation to BoughtToken[]
+}
+
+model BoughtToken {  // Updated: renamed to BoughtToken (singular) for clarity
+  id Int @id @default(autoincrement())
+  tokenId Int
+  accountAddress String
+  tokensBought Int
+  userId Int  // Updated: added userId field for stronger relational integrity
+  user User @relation(fields: [userId], references: [id])  // Updated: reference User by userId for consistency
+  mintedToken MintedToken @relation(fields: [tokenId], references: [tokenId])  // Updated: corrected naming
+  createdAt DateTime @default(now())
+  @@index([tokenId])  // Updated: added index on tokenId for performance
+  @@index([userId])  // Updated: added index on userId for performance
+}
