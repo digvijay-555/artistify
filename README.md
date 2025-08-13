@@ -36,6 +36,5 @@ Both artists and fans can track and verify the flow of funds and staking rewards
 
 
 ### Contract Deployment Address
-- **0x10184FCB656731B62E49A43e38B92B54980B1041**
-- [basescan](https://sepolia.basescan.org/address/0x10184FCB656731B62E49A43e38B92B54980B1041)
+- **0x11Aa4277F3315A610d526621fc61C3598d9839A9**
 
