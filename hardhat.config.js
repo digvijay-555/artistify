@@ -25,14 +25,6 @@ module.exports = {
       accounts: [`0x${process.env.SEPOLIA_PRIVATE_KEY}`] // Ensure you have your private key in an environment variable
     },
     // 0x110e523990f9b554f1953dad534fce82e7d33829ee8d861e55ec9de3857faf13
-    ganache: {
-      url: "http://127.0.0.1:7545",
-      accounts: [`0x${process.env.GANACHE_PRIVATE_KEY}`] // Ensure you have your private key in an environment variable
-    },
-    base_sepolia:{
-      url:"https://base-sepolia.g.alchemy.com/v2/0_dBc8BSLqye4szav2Y18g6p66yxhqzR",
-      accounts: [`0x${process.env.SEPOLIA_PRIVATE_KEY}`] // Ensure you have your private key in an environment variable
-    },
     basecamp:{
       // url:"_PbZ1NFA3U68zO4payI8YD5UqW5G3U9hOFbYJG4Tdy8_"
       url: "https://api.gelato.digital/bundlers/123420001114/rpc?apiKey=_PbZ1NFA3U68zO4payI8YD5UqW5G3U9hOFbYJG4Tdy8_"
