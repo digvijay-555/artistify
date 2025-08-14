@@ -1,8 +1,8 @@
-# Sound-Stake
+# Artistify
 
 ## Introduction
 
-Welcome to  **Sound-Stake**, an Music Staking Platform aims to address these challenges by introducing a decentralized, blockchain-based solution that enables direct interaction between artists and fans. It leverages music staking as a way for fans to invest in music projects and share in the financial success of the artists they support. 
+Welcome to  **Artistify**, a Music Staking Platform aims to address these challenges by introducing a decentralized, blockchain-based solution that enables direct interaction between artists and fans. It leverages music staking as a way for fans to invest in music projects and share in the financial success of the artists they support. 
 . By leveraging **BASE blockchain technology** Sound-Stake rewards fans/users with tokens.
 
 
@@ -11,7 +11,7 @@ Welcome to  **Sound-Stake**, an Music Staking Platform aims to address these cha
 Sound-Stake utilizes a diverse array of technologies to create seamless and engaging user experiences:
 
 - **Nextjs**: A powerful React framework for building server-side rendered applications, facilitating the development of dynamic and SEO-friendly components.
-- **Base**: An Ethereum Layer 2 blockchain that provides faster and cheaper transactions while maintaining the security of the Ethereum network.
+- **Camp**: An Layer 1 blockchain that provides faster and cheaper transactions.
 - **Solidity**: A smart contract programming language used to develop decentralized applications (dApps) on the Ethereum blockchain.
 - **Hardhat**: A development environment for compiling, deploying, testing, and debugging smart contracts on Ethereum-based blockchains.
 - **Pinata**:  A service for securely managing and sharing files on IPFS, often used for hosting decentralized media or metadata.
