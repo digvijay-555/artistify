@@ -17,7 +17,7 @@ export const mintToken = async (data: {
   try {
     // Find user by address
     const user = await prisma.user.findUnique({
-      where: { accountAddress: userAddress.toLowerCase() },
+      where: { accountAddress: userAddress },
     });
     console.log(user)
 
@@ -56,7 +56,7 @@ export const buyToken = async (data: {
   try {
     // Find user by address
     const user = await prisma.user.findUnique({
-      where: { accountAddress: accountAddress.toLowerCase() },
+      where: { accountAddress: accountAddress },
     });
 
     if (!user) {
@@ -75,7 +75,7 @@ export const buyToken = async (data: {
     // Create bought token record
     const boughtToken = await prisma.boughtToken.create({
       data: {
-        accountAddress: accountAddress.toLowerCase(),
+        accountAddress: accountAddress,
         tokensBought,
         user: { connect: { id: user.id } },
         mintedToken: { connect: { id: mintedToken.id } }, // Ensure the mintedToken relation is correctly specified

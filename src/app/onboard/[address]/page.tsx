@@ -22,7 +22,7 @@ export default function OnboardingPage({ params }: { params: { address: string }
 
     try {
       // Use the server action directly
-      const result = await onboardUser(formData, address);
+      await onboardUser(formData, address);
       
       // Navigate to the portfolio page after successful onboarding
       router.push(`/portfolio/${address}`);

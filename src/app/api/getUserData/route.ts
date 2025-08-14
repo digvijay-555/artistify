@@ -10,7 +10,7 @@ export const POST = async (request: NextRequest) => {
         }
 
         const userDetails = await prisma.user.findUnique({
-            where: { accountAddress: address.toLowerCase() },
+            where: { accountAddress: address },
             include: {
                 userInfo: true,
                 mintedTokens: true,

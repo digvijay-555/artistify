@@ -63,8 +63,8 @@ const OwnerTokenCard = (props: Props) => {
     }
 
     return (
-        <div className="w-80 h-[450px] rounded-lg flex flex-col overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 relative group">
-            <div className="relative w-full h-1/2 flex-1">
+        <div className="w-full h-[450px] rounded-xl flex flex-col overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 relative group bg-[#131316]">
+            <div className="relative w-full h-64 flex-shrink-0">
                 <Image
                     src={props.imageUrl}
                     layout="fill"
@@ -73,28 +73,33 @@ const OwnerTokenCard = (props: Props) => {
                     className="rounded-t-xl"
                 />
             </div>
-            <div className="w-full p-4 flex flex-col justify-start bg-[#131316] group-hover:bg-[#1a1a1f] transition-colors">
-                <div className='px-1 flex justify-between items-center'>
-                    <h1 className="text-md font-bold text-white">{props.tokenName}</h1>
-                    <div className="flex gap-2 items-center text-lg">
-                        <MdToken className='text-orange-400' />
-                        <p className="text-white">{props.availableToken}</p>
+            <div className="flex-1 p-4 flex flex-col justify-between bg-[#131316] group-hover:bg-[#1a1a1f] transition-colors">
+                <div className="space-y-3">
+                    <div className='flex justify-between items-center'>
+                        <h1 className="text-md font-bold text-white">{props.tokenName}</h1>
+                        <div className="flex gap-2 items-center text-lg">
+                            <MdToken className='text-orange-400' />
+                            <p className="text-white">{props.availableToken}</p>
+                        </div>
+                    </div>
+                    <div className='flex justify-between items-center'>
+                        <div className="flex gap-2 items-center text-lg">
+                            <FaEthereum className='text-orange-400' />
+                            <p className="text-white">{props.tokenPrice / 10000}</p>
+                        </div>
+                        <MdDiamond className='text-orange-400' />
                     </div>
                 </div>
-                <div className='px-2 flex justify-between items-center'>
-                    <div className="flex gap-2 items-center text-lg">
-                        <FaEthereum className='text-orange-400' />
-                        <p className="text-white">{props.tokenPrice / 10000}</p>
-                    </div>
-                    <MdDiamond className='text-orange-400' />
-                </div>
+                
+                {isReleased ? 
+                    <button className="w-full text-center py-3 bg-green-600 hover:bg-green-700 font-semibold text-lg text-white transition-colors rounded-lg mt-4">
+                        Released
+                    </button> : 
+                    <button className="w-full text-center py-3 bg-orange-500 hover:bg-orange-600 font-semibold text-lg cursor-pointer text-white transition-colors rounded-lg mt-4" onClick={handleRelease}>
+                        Release
+                    </button>
+                }
             </div>
-            {isReleased ? <button className="w-full text-center py-2 bg-green-600 hover:bg-green-700 font-semibold text-lg text-white transition-colors">
-                Released
-            </button> : <button className="w-full text-center py-2 bg-orange-500 hover:bg-orange-600 font-semibold text-lg cursor-pointer text-white transition-colors" onClick={handleRelease}>
-                Release
-            </button>
-            }
         </div>
     );
 };

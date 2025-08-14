@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { formatDistanceToNow } from 'date-fns/formatDistanceToNow';
+// import { formatDistanceToNow } from 'date-fns/formatDistanceToNow';
 import Link from 'next/link';
 
 interface TokenTileProps {
@@ -21,12 +21,10 @@ interface TokenTileProps {
 }
 
 const TokenTile: React.FC<TokenTileProps> = ({
-  id,
   tokenThumbail,
   tokenName,
   availableToken,
   tokenPrice,
-  createdAt,
   user,
   tokenId
 }) => {

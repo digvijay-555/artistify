@@ -15,7 +15,7 @@ export default function UserInformation({ user }: { user: any }) {
       <div className='max-w-7xl mx-auto px-6 py-12'>
         <div className='flex items-center justify-between'>
           <div className='flex justify-center gap-6'>
-            <div className='w-20 h-20 bg-gradient-to-r from-orange-500 to-orange-600 rounded-full'></div>
+            <div className='w-20 h-20 bg-gradient-to-r from-amber-400 to-red-400 rounded-full'></div>
             <div className='flex flex-col justify-center'>
               <p className='text-xl font-medium text-white'>{user.accountAddress.substr(0, 6) + "..." + user.accountAddress.substr(user.accountAddress.length - 3, user.accountAddress.length - 1)}</p>
               <p className='opacity-60 text-gray-400'>{user.accountAddress.substr(0, 6) + "..." + user.accountAddress.substr(user.accountAddress.length - 3, user.accountAddress.length - 1)}</p>

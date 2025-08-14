@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState} from 'react';
 import { useForm } from 'react-hook-form';
 import pinata from '@/lib/ipfs';
 import { uploadSong } from '@/lib/actions/song.actions';

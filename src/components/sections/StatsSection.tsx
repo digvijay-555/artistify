@@ -69,7 +69,7 @@ const StatsSection = () => {
       icon: FaEthereum,
       label: "Trading Volume",
       value: stats.totalVolume.toLocaleString(),
-      suffix: " ETH",
+      suffix: "CAMP",
       color: "from-green-500 to-emerald-500"
     },
     {

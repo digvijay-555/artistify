@@ -18,8 +18,8 @@ type Props = {
 const TokenCard = (props: Props) => {
     return (
         <Link href={`/token/${props.tokenId}`}>
-        <div className="w-80 h-[450px] rounded-xl flex flex-col overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 relative group cursor-pointer">
-            <div className="relative w-full h-1/2 flex-1">
+        <div className="w-full h-[400px] rounded-xl flex flex-col overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 relative group cursor-pointer bg-[#131316]">
+            <div className="relative w-full h-64 flex-shrink-0">
                 <Image
                     src={props.imageUrl}
                     layout="fill"
@@ -28,7 +28,7 @@ const TokenCard = (props: Props) => {
                     className="rounded-t-xl group-hover:scale-105 transition-transform duration-300"
                 />
             </div>
-            <div className="w-full p-4 flex flex-col justify-start bg-[#131316] pb-16 group-hover:bg-[#1a1a1f] transition-colors">
+            <div className=" p-4 flex flex-col justify-between bg-[#131316] group-hover:bg-[#1a1a1f] transition-colors">
                 <div className='px-1 flex justify-between items-center'>
                     <h1 className="text-md font-bold text-white">{props.tokenName}</h1>
                     <div className="flex gap-2 items-center text-lg">

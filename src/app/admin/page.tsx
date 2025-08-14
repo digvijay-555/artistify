@@ -11,7 +11,7 @@ import AdminTokenCard from '@/components/cards/AdminTokenCard';
 const Page = () => {
     // const [Fein, setFein] = useState<any>(null);
     // const [adminAddress, setAdminAddress] = useState<string | null>(null);
-    const [currentAddress, setCurrentAddress] = useState<string | null>(null);
+    // const [currentAddress, setCurrentAddress] = useState<string | null>(null);
     const [releasedTokens, setReleasedTokens] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
 
@@ -23,7 +23,7 @@ const Page = () => {
                 const signer = provider.getSigner();
                 const address = await signer.getAddress();
                 console.log('curr address', address);
-                setCurrentAddress(address);
+                // setCurrentAddress(address);
 
                 // const contractInstance5 = new ethers.Contract(
                 //     FeinAddress.address,
@@ -74,13 +74,13 @@ const Page = () => {
         return <Loader />;
     }
 
-    if (currentAddress !== "0x25FA79cf8ae3A3573511c6db759833e454e091d3") {
-        return (
-            <div className="flex items-center justify-center h-screen">
-                <h1 className="text-3xl font-bold text-red-500">Access Denied</h1>
-            </div>
-        );
-    }
+    // if (currentAddress !== "0x25FA79cf8ae3A3573511c6db759833e454e091d3") {
+    //     return (
+    //         <div className="flex items-center justify-center h-screen">
+    //             <h1 className="text-3xl font-bold text-red-500">Access Denied</h1>
+    //         </div>
+    //     );
+    // }
 
     return (
         <div className="p-8 min-h-screen bg-[#18181a]">

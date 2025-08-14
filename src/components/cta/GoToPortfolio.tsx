@@ -21,7 +21,7 @@ const GoToPortfolio = () => {
 
   return (
     <div 
-      className='w-12 h-12 rounded-full bg-gradient-to-r from-orange-500 to-orange-600 cursor-pointer hover:scale-105 transition-transform duration-200 flex items-center justify-center' 
+      className='w-12 h-12 rounded-full bg-gradient-to-r from-amber-400 to-red-400 cursor-pointer hover:scale-105 transition-transform duration-200 flex items-center justify-center' 
       onClick={handlePortfolioRedirect}
       title="Go to Portfolio"
       role="button"

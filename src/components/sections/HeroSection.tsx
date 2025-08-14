@@ -8,7 +8,7 @@ const HeroSection = () => {
   const auth = useAuth();
 
   const stats = [
-    { label: 'Total Volume', value: '847.3', unit: 'ETH', icon: FaEthereum },
+    { label: 'Total Volume', value: '847.3', unit: 'CAMP', icon: FaEthereum },
     { label: 'Active Artists', value: '156', unit: '+', icon: FaUsers },
     { label: 'Music NFTs', value: '2,847', unit: '', icon: FaMusic },
     { label: 'Growth', value: '+24%', unit: '', icon: FaArrowUp },
